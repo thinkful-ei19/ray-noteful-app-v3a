@@ -189,7 +189,7 @@ describe('Noteful API - Folders', function() {
 
     it('should delete a folder by id', function() {
       let data;
-      return Folder.findOne()
+      return Folder.findOne().select('id name')
         .then(_data => {
           data = _data;
           return chai.request(app).delete(`/api/folders/${data.id}`);
