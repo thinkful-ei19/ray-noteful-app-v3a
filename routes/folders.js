@@ -110,14 +110,28 @@ router.put('/folders/:id', (req, res, next) => {
 //DELETE a folder
 router.delete('/folders/:id', (req, res, next) => {
   const id = req.params.id;
+  
+  const deleteFolder = Folder.findByIdAndRemove({_id: id});
+  const deleteNote = Note.updateMany(
+    {folderId: id},
+    {$unset: {'folderId': ''}}
+  );
 
-  Folder.findByIdAndRemove(id)
+  Promise.all([deleteFolder, deleteNote])
     .then(() => {
       res.status(204).end();
     })
     .catch(err => {
       next(err);
     });
+
+//   Folder.findByIdAndRemove(id)
+//     .then(() => {
+//       res.status(204).end();
+//     })
+//     .catch(err => {
+//       next(err);
+//     });
 });
 
 
