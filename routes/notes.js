@@ -111,16 +111,22 @@ router.put('/notes/:id', (req, res, next) => {
     return next(err);
   }
 
-  if(!mongoose.Types.ObjectId.isValid(tag)) {
-    const err = new Error('The `id` is not valid');
-    err.status = 400;
-    return next(err);
+  if(tags) {
+    tags.forEach(tag => {
+      if(!mongoose.Types.ObjectId.isValid(tag)) {
+        const err = new Error('The `id` is not valid');
+        err.status = 400;
+        return next(err);
+      }
+    });
   }
 
   const updateItem = { title, content, folderId, tags };
   const options = { new: true };
 
   Note.findByIdAndUpdate(id, updateItem, options)
+    .select('id title content created folderId tags')
+    .populate('tags')
     .then(result => {
       if (result) {
         res.json(result);

@@ -123,7 +123,7 @@ router.delete('/tags/:id', (req, res, next) => {
 
   const deleteTag = Tag.findByIdAndRemove({_id: id});
   const updateTag = Tag.updateMany(
-    {'tagas': id},
+    {'tags': id},
     {'$pull': { 'tags': id } }
   );
 
