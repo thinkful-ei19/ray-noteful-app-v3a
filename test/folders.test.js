@@ -79,7 +79,7 @@ describe('Noteful API - Folders', function() {
   describe('POST /api/folders', function() {
 
     it('should create a new folder with valid data', function() {
-      const newFolder ={
+      const newFolder = {
         'name': 'test name'
       };
       let res;
