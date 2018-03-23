@@ -19,7 +19,8 @@ describe('Noteful API - Folders', function() {
   });
 
   beforeEach(function() {
-    return Folder.insertMany(seedFolders);
+    return Folder.insertMany(seedFolders)
+      .then(() => Folder.ensureIndexes());  //Folder.createIndexes works too
   });
 
   afterEach(function() {
